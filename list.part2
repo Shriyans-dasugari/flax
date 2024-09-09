@@ -1,0 +1,43 @@
+frnd_lst=['Liam','Felix','Niklas','Lennard','Liam']
+print(frnd_lst)
+
+# total number of items
+print()
+print(f'toltal no. of items = {len(frnd_lst) } ')
+
+# how many item 'Liam' occars in list 
+print()
+print(f'nomber of times Liam occors in th List = {frnd_lst.count('Liam') }')
+print()
+
+#adding an item in a list
+frnd_lst.append('Alon')
+print(frnd_lst)
+
+#creating second list
+list2=[3,5,6,7,8,2,9,0,1]
+print(list2[-4])
+
+print(list2)
+
+#adding list 1 and 2 (frnd_lst and list2) unsing append()
+frnd_lst.append(list2)
+print(f'Adding 2 lists using append():{frnd_lst}')
+
+#adding list 1 and 2 (frnd_lst and list2) unsing extend()
+list1=[ 'Kishore','Swapna','Veekshith']
+list3=[45,43,12]
+list1.extend(list3)
+print(f'Adding 2 lists using extend():{list1}')
+
+#delete an item by it's name 
+list1.remove('Swapna')
+print(list1)
+
+#delete the last item 
+list1.pop()
+print(list1)
+
+#delete the item at index 1 
+list1.pop(1)
+print(list1)
