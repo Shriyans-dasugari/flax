@@ -1,0 +1,71 @@
+import pgzrun
+import random
+import time 
+
+HEIGHT=500
+WIDTH=600
+
+score=0
+game_over=False
+
+#bee
+cat = Actor("cat")
+cat.pos=(150,150)
+
+#flower
+rat = Actor("rat")
+rat.pos=(300,300)
+
+msg=""
+
+def draw():
+    screen.blit("kitchen",(0,0))
+    rat.draw()
+    cat.draw()
+    screen.draw.text("Score:" + str(score),color="black",topleft=(10,10))
+    if game_over:
+        screen.fill("red")
+        global msg
+        msg="Time's Up!\nYour final score:"
+        screen.draw.text(msg + str(score),midtop=(WIDTH/2,20),fontsize=50,color="black")
+        
+
+def place_rat():
+    rat.x=random.randint(50,(WIDTH-50))
+    rat.y=random.randint(50,(HEIGHT -50))
+
+def time_up():
+    global game_over
+    game_over=True
+
+
+def update():
+    global score
+    if keyboard.left:       #move the cat to left by 6 pixels
+        cat.x = cat.x - 6
+    
+    if keyboard.right:
+        cat.x = cat.x + 6
+
+    if keyboard.up:
+        cat.y = cat.y - 6
+
+    if keyboard.down:
+        cat.y = cat.y + 6
+
+    rat_collected = cat.colliderect(rat)
+    if rat_collected:
+        score = score + 10
+        place_rat()
+
+
+
+
+clock.schedule(time_up,30.0)    #30 seconds
+
+
+
+
+
+
+pgzrun.go()
