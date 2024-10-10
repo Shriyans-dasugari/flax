@@ -1,0 +1,89 @@
+import pgzrun
+import random
+
+WIDTH = 500
+HEIGHT = 500
+
+BLUE = (0,0,255)
+
+# create a ship 
+ship = Actor('galaga')
+bug = Actor('bug')
+
+ship.pos = (WIDTH//2,HEIGHT-55)
+speed = 2
+
+bullets = []
+enemies = []
+for x in range(8):
+    enemies.append(Actor('bug'))
+    enemies[-1].x = 100 + 50*x
+    enemies[-1].y = -30 
+
+score = 0
+
+direction = 1
+
+def displayScore():
+    screen.draw.text(str(score),(100,30))
+
+def on_key_down(key):
+    if key == keys.SPACE:
+        bullets.append(Actor('bullet'))
+        bullets[-1].x = ship.x
+        bullets[-1].y = ship.y - 50 
+
+def update():
+    global score
+    global direction
+    movedown=False
+    if keyboard.left:
+        ship.x -= 5
+        if ship.x <= 0:
+            ship.x = 0
+    elif keyboard.right:
+        ship.x += 5
+        if ship.x >=WIDTH:
+            ship.x = WIDTH
+
+# if the bullet reches the top of the screen, we have to delete the bullet
+    #else the bullet should keep on moving up
+    for bullet in bullets:
+        if bullet.y <= 0:
+            bullets.remove(bullet)
+        else:
+            bullet.y -=10
+
+    if len(enemies)>0 and((enemies[0].x <20 or enemies[-1].x> WIDTH-30)):
+        movedown=True
+        dirction = direction*(-1)
+    for enemy in enemies:
+        enemy.x += 5*direction
+        if movedown==True:
+            enemy.y += 10 
+
+    
+        for bullet in bullets:
+            if enemy.colliderect(bullet):
+                sounds.eep.play()
+                score +=100
+                bullets.remove(bullet)
+                enemies.remove(enemy)  
+
+            
+
+
+
+def draw():
+    screen.clear()
+    screen.fill(BLUE)
+    for bullet in bullets:
+        bullet.draw()
+    for enemy in enemies:
+        enemy.draw()
+
+    ship.draw()
+    displayScore()
+
+
+pgzrun.go()
